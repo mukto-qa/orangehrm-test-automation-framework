@@ -6,26 +6,36 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
 
 public class BaseTest {
-    protected Properties prop;
+    protected static Properties prop;
     protected WebDriver driver;
 
-    @BeforeMethod
-    public void setup() throws IOException {
-        // Load config file
+
+    @BeforeSuite
+    public void loadConfig() throws IOException {
         prop = new Properties();
         FileInputStream fis = new FileInputStream("src/main/resources/config.properties");
         prop.load(fis);
+    }
 
-        // Initialize WebDriver
+    @BeforeMethod
+    public void setup() {
+        System.out.println("Setting up driver for: " + this.getClass().getSimpleName());
+        launchBrowser();
+        configureBrowser();
+    }
+
+    private void launchBrowser() {
         String browser = prop.getProperty("browser");
-
         switch (browser) {
             case "chrome":
                 driver = new ChromeDriver();
@@ -39,22 +49,31 @@ public class BaseTest {
             default:
                 throw new IllegalArgumentException("Browser not recognized");
         }
+    }
 
-        // Wait
+    private void configureBrowser() {
+        // Implicit wait
         int implicitWait = Integer.parseInt(prop.getProperty("implicitWait"));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitWait));
-
-        // Maximize Browser
+        // Maximize the browser
         driver.manage().window().maximize();
-
-        // Navigate to the URL
-        driver.get(prop.getProperty("baseUrl"));
+        // Navigate to URL
+        try {
+            driver.get(prop.getProperty("baseUrl"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
     @AfterMethod
     public void tearDown() {
         if (driver != null) {
-            driver.quit();
+            try {
+                driver.quit();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
