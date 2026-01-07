@@ -12,19 +12,17 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.LockSupport;
 
 public class BaseTest {
-    protected static Properties prop;
+    protected static Properties properties;
     protected WebDriver driver;
 
 
     @BeforeSuite
     public void loadConfig() throws IOException {
-        prop = new Properties();
+        properties = new Properties();
         FileInputStream fis = new FileInputStream("src/main/resources/config.properties");
-        prop.load(fis);
+        properties.load(fis);
     }
 
     @BeforeMethod
@@ -35,7 +33,7 @@ public class BaseTest {
     }
 
     private void launchBrowser() {
-        String browser = prop.getProperty("browser");
+        String browser = properties.getProperty("browser");
         switch (browser) {
             case "chrome":
                 driver = new ChromeDriver();
@@ -53,13 +51,13 @@ public class BaseTest {
 
     private void configureBrowser() {
         // Implicit wait
-        int implicitWait = Integer.parseInt(prop.getProperty("implicitWait"));
+        int implicitWait = Integer.parseInt(properties.getProperty("implicitWait"));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitWait));
         // Maximize the browser
         driver.manage().window().maximize();
         // Navigate to URL
         try {
-            driver.get(prop.getProperty("baseUrl"));
+            driver.get(properties.getProperty("baseUrl"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -75,5 +73,17 @@ public class BaseTest {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public static Properties getProperty() {
+        return properties;
     }
 }
