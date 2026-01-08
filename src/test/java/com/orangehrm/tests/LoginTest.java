@@ -17,10 +17,10 @@ public class LoginTest extends BaseTest {
         dashboardPage = new DashboardPage(driver);
     }
 
-    @Test
-    public void loginTest(){
+    @Test(description = "TC_AUTH_01_01 - Verify successful login with valid Admin credentials")
+    public void shouldLoginSuccessfullyWithValidCredentials() {
         loginPage.login("admin", "Thisisfortest@001");
-        Assert.assertTrue(dashboardPage.isDashboardPageLoaded());
-        Assert.assertEquals(dashboardPage.getDashboardPageHeaderText(), "Dashboard");
+        Assert.assertTrue(dashboardPage.isDashboardPageLoaded(), "Dashboard page should be loaded after successful login");
+        Assert.assertEquals(dashboardPage.getDashboardPageHeaderText(), "Dashboard", "Dashboard header text mismatch");
     }
 }
