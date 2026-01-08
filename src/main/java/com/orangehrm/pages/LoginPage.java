@@ -21,4 +21,12 @@ public class LoginPage {
         action.enterText(passwordInputField, password);
         action.click(loginButton);
     }
+
+    public boolean isErrorMessageDisplayed() {
+        return action.isDisplayed(errorMessage);
+    }
+
+    public String getErrorMessage() {
+        return action.getText(errorMessage);
+    }
 }

@@ -9,6 +9,8 @@ public class HeaderComponent {
     private final ActionDriver action;
 
     private final By pageHeader = By.cssSelector("h6.oxd-topbar-header-breadcrumb-module");
+    private final By userIdButton = By.className("oxd-userdropdown-tab");
+    private final By logoutButton = By.xpath("//a[text()='Logout']");
 
     public HeaderComponent(WebDriver driver) {
         this.action = new ActionDriver(driver);
@@ -20,5 +22,10 @@ public class HeaderComponent {
 
     public boolean isHeaderDisplayed() {
         return action.isDisplayed(pageHeader);
+    }
+
+    public void logout() {
+        action.click(userIdButton);
+        action.click(logoutButton);
     }
 }

@@ -75,13 +75,13 @@ public class BaseTest {
         }
     }
 
-    public WebDriver getDriver() {
-        return driver;
-    }
+//    public WebDriver getDriver() {
+//        return driver;
+//    }
 
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
-    }
+//    public void setDriver(WebDriver driver) {
+//        this.driver = driver;
+//    }
 
     public static Properties getProperty() {
         return properties;

@@ -1,6 +1,7 @@
 package com.orangehrm.components;
 
 import com.orangehrm.actiondriver.ActionDriver;
+import com.orangehrm.enums.SideMenuItem;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -8,18 +9,17 @@ public class SideMenuComponent {
 
     private final ActionDriver action;
 
-    private final By pimMenu = By.xpath("//span[text()='PIM']");
-    private final By dashboardMenu = By.xpath("//span[text()='Dashboard']");
+    private static final String MENU_XPATH =
+            "//span[contains(@class,'oxd-main-menu-item--name') and text()='%s']";
 
     public SideMenuComponent(WebDriver driver) {
         this.action = new ActionDriver(driver);
     }
 
-    public void goToPIM() {
-        action.click(pimMenu);
-    }
-
-    public void goToDashboard() {
-        action.click(dashboardMenu);
+    public void navigateTo(SideMenuItem menuItem) {
+        By menuLocator = By.xpath(
+                String.format(MENU_XPATH, menuItem.getDisplayName())
+        );
+        action.click(menuLocator);
     }
 }
