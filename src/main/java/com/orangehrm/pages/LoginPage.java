@@ -11,6 +11,7 @@ public class LoginPage {
     private final By passwordInputField = By.name("password");
     private final By loginButton = By.xpath("//button[text()=' Login ']");
     private final By errorMessage = By.xpath("//p[text()='Invalid credentials']");
+    private final By requiredErrorText = By.xpath("//span[text()='Required']");
 
     public LoginPage(WebDriver driver) {
         this.action = new ActionDriver(driver);
@@ -28,5 +29,13 @@ public class LoginPage {
 
     public String getErrorMessage() {
         return action.getText(errorMessage);
+    }
+
+    public boolean isRequiredErrorMessageDisplayed() {
+        return action.isDisplayed(requiredErrorText);
+    }
+
+    public String getRequiredErrorMessage() {
+        return action.getText(requiredErrorText);
     }
 }
