@@ -1,0 +1,26 @@
+{
+  "invalidUsername": {
+    "username": "invalidAdmin",
+    "password": "Thisisfortest@001"
+  },
+  "invalidPassword": {
+    "username": "admin",
+    "password": "wrongPassword"
+  },
+  "invalidBoth": {
+    "username": "invalidAdmin",
+    "password": "wrongPassword"
+  },
+  "emptyUsername": {
+    "username": "",
+    "password": "Thisisfortest@001"
+  },
+  "emptyPassword": {
+    "username": "admin",
+    "password": ""
+  },
+  "emptyBoth": {
+    "username": "",
+    "password": ""
+  }
+}
